@@ -1,18 +1,13 @@
 var express	=	require("express");
 var app	=	express();
 var bodyParser	=	require("body-parser"),
-mongoose	=	require("mongoose");
+	mongoose	=	require("mongoose"),
+	Project	=	require("./models/projects"),
+	seedDB		=	require("./seeds");
+
+seedDB();;
 
 mongoose.connect("mongodb://localhost/industry", { useNewUrlParser: true, useUnifiedTopology: true } );
-
-
-//Schema Setup
-var projectSchema	=	new mongoose.Schema({
-	name: String,
-	description: String
-});
-
-var Project	=	mongoose.model("Project", projectSchema);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -32,7 +27,13 @@ app.get("/project", function(req, res){
 });
 
 app.get("/config", function(req, res){
-	res.render("config");
+	Project.find({}, function(err, allProjects){
+		if(err){
+			console.log(err);
+		}else{
+			res.render("config",{projects:allProjects});
+		}
+	});
 });
 
 //CREATE - add new project to DBs
@@ -47,7 +48,41 @@ app.post("/config", function(req,res){
 			console.log(err);
 		}else{
 			//redirect back to campgrounds page
-			res.redirect("/project");
+			res.redirect("/config");
+		}
+	});
+});
+
+app.get("/config/:id", function(req, res){
+	//find the campground with provided ID
+	Project.findById(req.params.id).populate("locations").exec(function(err, foundProject){
+		if(err){
+			console.log(err);
+		}else{
+				console.log(foundProject);
+				//render show template with that campground
+				res.render("show", {project: foundProject});
+				console.log(foundProject.locations)
+		}
+	});
+});
+
+app.post("/config/:id", function(req, res){
+	//lookup campground using ID
+	Project.findById(req.params.id, function(err, project){
+		if(err){
+			console.log(err);
+			res.redirect("/config");
+		}else{
+			Location.create(req.body.location, function(err, location){
+				if(err){
+					console.log(err)
+				}else{
+					project.locations.push(location);
+					project.save();
+					res.redirect("/config/"+project._id);
+				}
+			});
 		}
 	});
 });

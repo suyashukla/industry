@@ -1,10 +1,5 @@
 <% include partials/header %>
 
-<div>
-    <a href="/config/new">New Project</a>
-</div>
-
-
 <div class="container">
 	<div class="row">
 		<h1 style="text-align: center">Create a new Project</h1>
@@ -26,4 +21,20 @@
 	</div>
 </div>
 
+<div>
+    <div class="row text-center" style="display:flex; flex-wrap: wrap">
+		<% projects.forEach(function(project){%>
+			<div class="col-md-3 col-sm-6">
+				<div class="thumbnail">
+					<div class="caption">
+						<h4><%= project.name%></h4>
+					</div>
+					<p>
+						<a href="/config/<%= project._id%>" class="btn btn-primary">More Info</a>
+					</p>
+				</div>
+			</div>
+		<% }); %>
+	</div>
+</div>
 <% include partials/footer %>
