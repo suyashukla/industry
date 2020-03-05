@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+
+<h1><%= location.name %></h1>
+
+
+<p><%= location.description %></p>
+
+<div class="container">
+	<div class="row">
+		<h1 style="text-align: center">Add a new sensor</h1>
+		<div style="width: 30%; margin: 25px auto;">
+			<form action="/config/<%= project._id %>/<%= location._id %>" method="POST">
+				<div class="form-group">
+					<input class="form-control" type="text" name="sensor[name]" placeholder="Name of Sensor">
+				</div>
+				<div class="form-group">
+					<button class="btn btn-lrg btn-primary btn-block">Add sensor</button>
+				</div>
+			</form>		
+			<a href="/">Go Back</a>
+		</div>
+
+	</div>
+</div>
+
+<% location.sensors.forEach(function(sensor){ %>
+    <p>
+        <a href="/config/<%= project._id %>/<%= location._id %>"><strong><%= sensor.name%></strong></a>
+    </p>
+<% }) %>
+
+<% include ../partials/footer %>

@@ -1,6 +1,7 @@
 var mongoose    =   require("mongoose"),
-    Project     =   require("./models/projects")
-    Location     =  require("./models/location");
+    Project     =   require("./models/projects"),
+    Location     =  require("./models/location"),
+    Sensor     =  require("./models/sensor");
 
 var data=[
     {
@@ -40,7 +41,19 @@ function seedDB(){
                             if(err){
                                 console.log(err);
                             }else{
-                                project.locations.push(location);;
+                                Sensor.create({
+                                    name: "Sensor 1",
+                                    value: "41"
+                                }, function(err, sensor){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        location.sensors.push(sensor);
+                                        location.save();
+                                        console.log("Created new Sensor");
+                                    }
+                                });
+                                project.locations.push(location);
                                 project.save();
                                 console.log("Created new location");
                             }
