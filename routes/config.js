@@ -127,20 +127,13 @@ router.get("/:id/:locid/:senid", function(req, res){
 					Sensor.findById(req.params.senid).populate("history").exec(function(err, foundSensor){
 						if(err){
 							console.log(err);
-						}else{
-							var values 	= [],
-								dates	= [];
-							foundSensor.history.forEach(function(his){
-								values.push(his.value);
-								dates.push(his.date);
-							});	
+						}else{	
 							res.render("config/sense",
 								{
 									location: foundLocation,
 									project: foundProject,
 									sensor:	foundSensor,
-									yaxis: values,
-									xaxis: dates										
+										
 								}
 							);
 						}

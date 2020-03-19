@@ -1,9 +1,9 @@
 <% include ../partials/header %>
 
-<div>
-	<div>
-		<h1>Add a new history</h1>
+<div class="container">
+	<div class="row">
 		<div style="width: 30%; margin: 25px auto;">
+			<h4>Add a new history</h4>		
 			<form action="/config/<%= project._id %>/<%= location._id %>/<%= sensor._id %>" method="POST">
 				<div>
 					<input type="date" name="his[date]">
@@ -12,10 +12,11 @@
 					<input type="number" name="his[value]">
 				</div>
 				<div class="form-group">
-					<button class="btn btn-lrg btn-primary btn-block">Add history</button>
+					<button class=btn-primary btn-block">Add history</button>
+					<a href="/">Go Back</a>
 				</div>
 			</form>		
-			<a href="/">Go Back</a>
+			
 		</div>
 
 	</div>
@@ -26,30 +27,5 @@
 		<strong><%= his.date %></strong>: <%= his.value %>
     </p>
 <% }) %>
-
-<canvas id="myChart"></canvas>
-<!-- Start Js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-<script>
-	console.log(<%= xaxis %>);
-
-	var ctx = document.getElementById('myChart').getContext('2d');
-	var myChart = new Chart(ctx,	 {
-		type: 'bar',
-		data: {
-			labels: [<%= xaxis %>],
-			datasets: [{
-				label: 'Global Average temperature in C°',
-				data: [<%= yaxis %>],
-				fill: false,
-				backgroundColor: 'rgba(0, 0, 255, 0.2)',
-				borderColor: 'rgba(0, 0, 255, 1)',
-				borderWidth: 1
-			}]
-		}
-	});
-</script>
-
-
 
 <% include ../partials/footer %>

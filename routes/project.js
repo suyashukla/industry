@@ -64,12 +64,20 @@ router.get("/:id/:locid/:senid", function(req, res){
 						if(err){
 							console.log(err);
 						}else{
-							console.log(foundSensor.history);
+							//console.log(foundSensor.history);
+							var values 	= [],
+								dates	= [];
+							foundSensor.history.forEach(function(his){
+								values.push(his.value);
+								dates.push(his.date);
+							});	
 							res.render("project/sense",
 								{
 									location: foundLocation,
 									project: foundProject,
-									sensor:	foundSensor									
+									sensor:	foundSensor,
+									yaxis: values,
+									xaxis: dates							
 								}
 							);
 						}

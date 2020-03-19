@@ -8,4 +8,25 @@
     </p>
 <% }) %>
 
+<canvas id="myChart"></canvas>
+<!-- Start Js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+	var ctx = document.getElementById('myChart').getContext('2d');
+	var myChart = new Chart(ctx,	 {
+		type: 'bar',
+		data: {
+			labels: [<%= xaxis %>],
+			datasets: [{
+				label: 'Global Average temperature in C°',
+				data: [<%= yaxis %>],
+				fill: false,
+				backgroundColor: 'rgba(0, 0, 255, 0.2)',
+				borderColor: 'rgba(0, 0, 255, 1)',
+				borderWidth: 1
+			}]
+		}
+	});
+</script>
+
 <% include ../partials/footer %>

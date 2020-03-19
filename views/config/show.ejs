@@ -7,21 +7,23 @@
 
 <div class="container">
 	<div class="row">
-		<h1 style="text-align: center">Create a new Location</h1>
 		<div style="width: 30%; margin: 25px auto;">
+			<h4>Create a new Location</h4>		
 			<form action="/config/<%= project._id %>" method="POST">
 				<div class="form-group">
 					<input class="form-control" type="text" name="location[name]" placeholder="Name of Location">
 				</div>
 				<div class="form-group">
-					<button class="btn btn-lrg btn-primary btn-block">Add location</button>
+					<button class=btn-primary btn-block">Submit</button>
+					<a href="/">Go Back</a>
 				</div>
 			</form>		
-			<a href="/">Go Back</a>
+			
 		</div>
 
 	</div>
 </div>
+
 <% project.locations.forEach(function(location){ %>
     <p>
         <a href="/config/<%= project._id %>/<%= location._id%>"><strong><%= location.name%></strong></a>
