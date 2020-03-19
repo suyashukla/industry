@@ -1,0 +1,14 @@
+<% include ../partials/header %>
+
+<h1><%= project.name %></h1>
+
+
+<p><%= project.description %></p>
+
+<% project.locations.forEach(function(location){ %>
+    <p>
+        <a href="/project/<%= project._id %>/<%= location._id%>"><strong><%= location.name%></strong></a>
+    </p>
+<% }) %>
+
+<% include ../partials/footer %>

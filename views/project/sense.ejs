@@ -1,0 +1,11 @@
+<% include ../partials/header %>
+
+<h1><%= sensor.name %></h1>
+
+<% sensor.history.forEach(function(his){ %>
+    <p>
+        <strong><%= his.date %></strong>: <%= his.value %>
+    </p>
+<% }) %>
+
+<% include ../partials/footer %>

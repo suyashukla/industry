@@ -1,0 +1,14 @@
+<% include ../partials/header %>
+
+<h1><%= location.name %></h1>
+
+
+<p><%= location.description %></p>
+
+<% location.sensors.forEach(function(sensor){ %>
+    <p>
+        <a href="/project/<%= project._id %>/<%= location._id %>/<%= sensor._id%>"><strong><%= sensor.name%></strong></a>
+    </p>
+<% }) %>
+
+<% include ../partials/footer %>

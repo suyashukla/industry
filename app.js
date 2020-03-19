@@ -2,16 +2,13 @@ var express	=	require("express");
 var app	=	express();
 var bodyParser	=	require("body-parser"),
 	mongoose	=	require("mongoose"),
-	Project		=	require("./models/projects"),
-	Location	=	require("./models/location"),
-	Sensor		=	require("./models/sensor"),
 	seedDB		=	require("./seeds"),
 	//requiring Routes
 	projectRoutes		=	require("./routes/project"),
 	configRoutes		=	require("./routes/config"),
 	indexRoutes			=	require("./routes/index");
 
-seedDB();
+//seedDB();
 
 mongoose.connect("mongodb://localhost/industry", { useNewUrlParser: true, useUnifiedTopology: true } );
 

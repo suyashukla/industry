@@ -2,7 +2,8 @@ var express	=	require("express");
 var router	=	express.Router();
 var Project	=	require("../models/projects"),
 	Location	=	require("../models/location"),
-	Sensor		=	require("../models/sensor");
+	Sensor		=	require("../models/sensor"),
+	History		=	require("../models/history");
 
 //INDEX ROUTE-shows all projects in configuration page
 router.get("/", function(req, res){
@@ -105,6 +106,77 @@ router.post("/:id/:locid", function(req, res){
 							location.sensors.push(sensor);
 							location.save();
 							res.redirect("/config/"+project._id+"/"+location._id);
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+router.get("/:id/:locid/:senid", function(req, res){
+	Project.findById(req.params.id, function(err, foundProject){
+		if(err){
+			console.log(err);
+			res.redirect("/project");
+		}else{
+			Location.findById(req.params.locid).populate("sensors").exec(function(err, foundLocation){
+				if(err){
+					console.log(err);
+				}else{
+					Sensor.findById(req.params.senid).populate("history").exec(function(err, foundSensor){
+						if(err){
+							console.log(err);
+						}else{
+							var values 	= [],
+								dates	= [];
+							foundSensor.history.forEach(function(his){
+								values.push(his.value);
+								dates.push(his.date);
+							});	
+							res.render("config/sense",
+								{
+									location: foundLocation,
+									project: foundProject,
+									sensor:	foundSensor,
+									yaxis: values,
+									xaxis: dates										
+								}
+							);
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+router.post("/:id/:locid/:senid", function(req, res){
+	Project.findById(req.params.id, function(err, project){
+		if(err){
+			console.log(err);
+			res.redirect("/config");
+		}else{
+			Location.findById(req.params.locid, function(err, location){
+				if(err){
+					console.log(err);
+					res.redirect("/config");
+				}else{
+					Sensor.findById(req.params.senid, function(err, sensor){
+						if(err){
+							console.log(err)
+						}else{
+							History.create(req.body.his, function(err, h){
+								if(err){
+									console.log(err);
+									res.redirect("config");
+								}else{
+									sensor.history.push(h);
+									sensor.save();
+									res.redirect("/config/"+project._id+"/"+location._id+"/"+sensor._id);
+								}
+							});
+							
 						}
 					});
 				}
