@@ -10,7 +10,7 @@ var bodyParser	=	require("body-parser"),
 
 //seedDB();
 
-mongoose.connect("mongodb://localhost/industry", { useNewUrlParser: true, useUnifiedTopology: true } );
+mongoose.connect("mongodb+srv://industry:industry@cluster0-7ook7.mongodb.net/industry?retryWrites=true&w=majority");
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname+"/public"));
