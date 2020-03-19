@@ -20,6 +20,6 @@ app.use(indexRoutes);
 app.use("/config", configRoutes);
 app.use("/project", projectRoutes);
 
-app.listen(3200, function(){
+app.listen(process.env.PORT || 3200, function(){
 	console.log("The Server Has Started!");
 });
